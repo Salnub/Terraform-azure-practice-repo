@@ -16,6 +16,18 @@ variable "prefix" {
   default = "tfvmex"
 }
 
+variable "admin_username" {
+  description = "Admin username"
+  type        = string
+}
+
+variable "admin_password" {
+  description = "Admin password"
+  type        = string
+  sensitive   = true
+}
+
+
 resource "azurerm_resource_group" "example" {
   name     = "${var.prefix}-resources"
   location = "centralindia"
@@ -54,8 +66,8 @@ resource "azurerm_linux_virtual_machine" "main" {
   network_interface_ids = [azurerm_network_interface.main.id]
   size                  = "Standard_B1s"
 
-  admin_username = "sallu"
-  admin_password = "Smartcode@11"
+  admin_username = "var.admin_username"
+  admin_password = "var.admin_password"
 
   os_disk {
     name                 = "myosdisk1"
