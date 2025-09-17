@@ -9,11 +9,16 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    # resource_group {
+    # prevent_deletion_if_contains_resources = false
+    # }
+  }
 }
 
 variable "prefix" {
-  default = "tfvmex"
+  description = "VM name"
+  type        = string
 }
 
 variable "admin_username" {
@@ -66,8 +71,8 @@ resource "azurerm_linux_virtual_machine" "main" {
   network_interface_ids = [azurerm_network_interface.main.id]
   size                  = "Standard_B1s"
 
-  admin_username = "var.admin_username"
-  admin_password = "var.admin_password"
+  admin_username = var.admin_username
+  admin_password = var.admin_password
 
   os_disk {
     name                 = "myosdisk1"
